@@ -20,7 +20,7 @@ const io = new Server(server, {
 });
 
 app.use(cors({
-  origin: '*',
+  origin: ['http://localhost:3000', 'https://pingboard.netlify.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
