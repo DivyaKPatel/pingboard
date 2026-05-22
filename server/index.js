@@ -12,18 +12,18 @@ const standupRoutes = require('./routes/standups');
 const app = express();
 const server = http.createServer(app);
 
-const io = new Server(server, {
-  cors: {
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST']
-  }
-});
-
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://pingboard.netlify.app'],
+  origin: ['http://localhost:3000', 'https://subtle-mochi-b4e8f5.netlify.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+const io = new Server(server, {
+  cors: {
+    origin: ['http://localhost:3000', 'https://subtle-mochi-b4e8f5.netlify.app'],
+    methods: ['GET', 'POST']
+  }
+});
 
 app.use(express.json());
 
