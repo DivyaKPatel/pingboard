@@ -1,12 +1,21 @@
-const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
-const StandupSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  userName: String,
-  workspaceId: String,
-  today: String,
-  blockers: String,
-  date: { type: String, default: () => new Date().toLocaleDateString() }
-}, { timestamps: true });
-
-module.exports = mongoose.model('Standup', StandupSchema);
+module.exports = (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+    console.log('Auth header:', authHeader);
+    
+    if (!authHeader) return res.status(401).json({ message: 'No token' });
+    
+    const token = authHeader.split(' ')[1];
+    console.log('Token extracted:', token ? 'yes' : 'no');
+    
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log('Decoded token:', decoded);
+    req.user = decoded;
+    next();
+  } catch(err) {
+    console.log('Auth error:', err.message);
+    res.status(401).json({ message: 'Invalid token: ' + err.message });
+  }
+};

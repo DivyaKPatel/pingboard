@@ -9,4 +9,4 @@ const StandupSchema = new mongoose.Schema({
   date: { type: String, default: () => new Date().toLocaleDateString() }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Standup', StandupSchema);
+module.exports = mongoose.models.Standup || mongoose.model('Standup', StandupSchema);

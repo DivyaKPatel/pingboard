@@ -13,5 +13,4 @@ const UserSchema = new mongoose.Schema({
   statusText: { type: String, default: '' },
   lastSeen: { type: Date, default: Date.now }
 }, { timestamps: true });
-
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.models.User || mongoose.model('User', UserSchema);

@@ -20,19 +20,26 @@ router.get('/:workspaceId', auth, async (req, res) => {
 // Post standup
 router.post('/', auth, async (req, res) => {
   try {
+    console.log('Standup request received:', req.body);
+    console.log('User from token:', req.user);
+    
     const { today, blockers, workspaceId } = req.body;
     const standup = new Standup({
       userId: req.user.id,
       userName: req.user.name,
       workspaceId,
       today,
-      blockers
+      blockers: blockers || '',
+      date: new Date().toLocaleDateString()
     });
+    
+    console.log('Saving standup:', standup);
     await standup.save();
+    console.log('Standup saved!');
     res.json(standup);
   } catch (err) {
+    console.log('Standup error:', err.message);
     res.status(500).json({ message: err.message });
   }
 });
-
 module.exports = router;
